@@ -29,4 +29,11 @@ Add the logout feature using 'auth.logout' and modify 'urls.py'. On the dashboar
 
 Protecting the dashboard from unauthenticated user
 - use the LoginRequired
-
+--------------------------------
+Create the database with 2 classes including Dish, Address
+- Setup the unique constraint for Address
+- Setup the ManyToManyFields in Dish
+--------------------------------
+Set up the dashboard with the most 5 favorite dishes (sort by total_like)
+Setup the like and dislike system by checking the user exist in the like list
+Setup the search engine, however only search for exactly keyword
