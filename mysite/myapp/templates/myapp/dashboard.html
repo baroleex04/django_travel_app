@@ -1,4 +1,17 @@
 <html>
     <h1>This is the dashboard.</h1>
-    <a href="{% url 'logout' %}">Logout</a>
+    <h1>Welcome to eating and travelling app!</h1>
+{% load static %}
+
+{% comment %} <link rel="stylesheet" href="{% static 'travel/style.css' %}"> {% endcomment %}
+{% if best_five_dishes %}
+    <ul>
+    {% for dish in best_five_dishes %}
+    <li><a href="{% url 'myapp:detail' dish.id %}">{{ dish.name }}</a></li>    
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No dishes are available.</p>
+{% endif %} 
+    <a href="{% url 'myapp:logout' %}">Logout</a>
 </html>
