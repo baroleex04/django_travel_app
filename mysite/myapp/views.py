@@ -75,3 +75,13 @@ def detail(request, dish_id):
         "msg": msg
     }
     return render(request, "myapp/detail.html", context)
+
+@login_required(login_url="login")
+def search(request):
+    if request.method == 'GET':
+        search = request.GET.get('search')
+        dish_list = Dish.objects.all().filter(name__icontains=search)
+        context = {
+            "dish_list": dish_list
+        }
+    return render(request, "myapp/search.html", context)
