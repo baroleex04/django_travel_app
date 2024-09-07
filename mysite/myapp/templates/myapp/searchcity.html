@@ -1,0 +1,28 @@
+<html>
+    <h1>This is the dashboard.</h1>
+    <h1>Welcome to eating and travelling app!</h1>
+{% load static %}
+{% comment %} <link rel="stylesheet" href="{% static 'travel/style.css' %}"> {% endcomment %}
+<form action="{%url 'myapp:searchdistrict'%}" method="GET">
+    <input type="text" name="searchdistrict"/>
+    {% if dish_list %}
+        {% for dish in dish_list %}
+            <input type="hidden" name="dish_list" value="{{ dish.id }}">
+        {% endfor %}
+    {% endif %}
+    <button type="submit">Search by district</button>
+</form>
+{% if dish_list %}
+    <ul>
+    {% for dish in dish_list %}
+    <li><a href="{% url 'myapp:detail' dish.id %}">{{ dish.name }}</a></li>    
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No dishes are available.</p>
+{% endif %} 
+<a href="{%url 'myapp:dashboard'%}">
+    <button>Trở về trang chủ</button>
+</a>
+    <a href="{% url 'myapp:logout' %}">Logout</a>
+</html>

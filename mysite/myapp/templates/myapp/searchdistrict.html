@@ -2,23 +2,18 @@
     <h1>This is the dashboard.</h1>
     <h1>Welcome to eating and travelling app!</h1>
 {% load static %}
-<form action="{%url 'myapp:search'%}" method="GET">
-    <input type="text" name="search"/>
-    <button type="submit">Search</button>
-</form>
-<form action="{%url 'myapp:searchcity'%}" method="GET">
-    <input type="text" name="searchcity"/>
-    <button type="submit">Search by city</button>
-</form>
 {% comment %} <link rel="stylesheet" href="{% static 'travel/style.css' %}"> {% endcomment %}
-{% if best_five_dishes %}
+{% if dish_list %}
     <ul>
-    {% for dish in best_five_dishes %}
+    {% for dish in dish_list %}
     <li><a href="{% url 'myapp:detail' dish.id %}">{{ dish.name }}</a></li>    
     {% endfor %}
     </ul>
 {% else %}
     <p>No dishes are available.</p>
 {% endif %} 
+<a href="{%url 'myapp:dashboard'%}">
+    <button>Trở về trang chủ</button>
+</a>
     <a href="{% url 'myapp:logout' %}">Logout</a>
 </html>

@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, LoginForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import F
+import urllib.parse
 # For authentication
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
+
+def generate_google_maps_url(address):
+    base_url = 'https://www.google.com/maps/search/?api=1&query='
+    encoded_address = urllib.parse.quote(address)  # URL encode the address
+    search_url = base_url + encoded_address
+    return search_url
+
+def iscontain(name, checkcontain):
+    if name.__contains__(checkcontain):
+        return True
+    return False
 
 def homepage(request):
     return render(request, "myapp/index.html")
@@ -85,3 +97,42 @@ def search(request):
             "dish_list": dish_list
         }
     return render(request, "myapp/search.html", context)
+
+@login_required(login_url="login")
+def searchcity(request):
+    if request.method == 'GET':
+        search = request.GET.get('searchcity')
+        all_dish = Dish.objects.all()
+        dish_list = []
+        for dish in all_dish:
+            address = dish.address.filter(is_primary=True).first()
+            if iscontain(address.city, search):
+                dish_list.append(dish)
+        context = {
+            "dish_list": dish_list
+        }
+    return render(request, "myapp/searchcity.html", context)
+
+@login_required(login_url="login")
+def searchdistrict(request):
+    searchdistrict = request.GET.get('searchdistrict')
+    dish_ids = request.GET.getlist('dish_list')  # Get the list of dish IDs
+    valid_dish_ids = [int(dish_id) for dish_id in dish_ids if dish_id.isdigit()]
+    dishes = Dish.objects.filter(id__in=valid_dish_ids)
+    dish_list = []
+    for dish in dishes:
+        address = dish.address.filter(is_primary=True).first()
+        if address.district == searchdistrict:
+            dish_list.append(dish)
+    context = {
+        "dish_list": dish_list
+    }
+    return render(request, 'myapp/searchdistrict.html', context)
+
+@login_required(login_url="login")
+def map(request, dish_id):
+    dish = get_object_or_404(Dish, id=dish_id)
+    address = dish.address.filter(is_primary=True).first()
+    string_address = address.number + " đường " + address.street + ", phường " + address.ward + ", quận " + address.district + ", " + address.city
+    maps_url = generate_google_maps_url(string_address)
+    return HttpResponse(maps_url)
