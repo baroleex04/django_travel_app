@@ -37,3 +37,6 @@ Create the database with 2 classes including Dish, Address
 Set up the dashboard with the most 5 favorite dishes (sort by total_like)
 Setup the like and dislike system by checking the user exist in the like list
 Setup the search engine, however only search for exactly keyword
+---------------------------------
+Generate a google map location from an address of a dish
+Generate a search by city and search by district
