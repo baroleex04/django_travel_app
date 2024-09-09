@@ -16,6 +16,17 @@ def generate_google_maps_url(address):
     search_url = base_url + encoded_address
     return search_url
 
+@login_required(login_url="login")
+def map(request, dish_id):
+    dish = get_object_or_404(Dish, id=dish_id)
+    address = dish.address.filter(is_primary=True).first()
+    string_address = address.number + " đường " + address.street + ", phường " + address.ward + ", quận " + address.district + ", " + address.city
+    maps_url = generate_google_maps_url(string_address)
+    context = {
+        "location_link": maps_url
+    }
+    return render(request, "myapp/map.html", context)
+
 def iscontain(name, checkcontain):
     if name.__contains__(checkcontain):
         return True
@@ -128,11 +139,3 @@ def searchdistrict(request):
         "dish_list": dish_list
     }
     return render(request, 'myapp/searchdistrict.html', context)
-
-@login_required(login_url="login")
-def map(request, dish_id):
-    dish = get_object_or_404(Dish, id=dish_id)
-    address = dish.address.filter(is_primary=True).first()
-    string_address = address.number + " đường " + address.street + ", phường " + address.ward + ", quận " + address.district + ", " + address.city
-    maps_url = generate_google_maps_url(string_address)
-    return HttpResponse(maps_url)

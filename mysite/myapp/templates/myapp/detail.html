@@ -7,45 +7,58 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'myapp:dashboard' %}">Măm Măm</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'myapp:dashboard' %}">Dashboard</a>
+              </li>
+            </ul>
+            <div class="d-flex">
+              <a href="{% url 'myapp:logout' %}" class="btn btn-danger">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
     <div class="container mt-5">
         <!-- Title Section -->
         <h1 class="text-center mb-4">Món ăn của bạn</h1>
         <div class="mb-3">
-            <h2 class="text-primary">{{ dish.name }}</h2>
+            <h2 class="text-primary">{{ dish.name }} thơm ngon đây!!!</h2>
         </div>
 
+        <div>
+            <div>
+                <h2>Giá cả món ăn: <span class="text-success">{{ dish.price}} cá</span></h2>
+                <h3>
+                    Địa chỉ: đường {{ address.street }}, phường {{ address.ward }}, quận {{ address.district }}, {{ address.city }}
+                </h3>
+                <h3>Số lượt like: {{ dish.total_like }}</h3>
+            </div>
+        </div> 
+
+        <!-- Like/Dislike Buttons -->
+        <div class="d-flex justify-content-between mb-4">
+            <form action="#" method="get">
+                <input type="submit" value="Like" name="likebtn" class="btn btn-primary">
+            </form>
+            <form action="#" method="get">
+                <input type="submit" value="Dislike" name="dislikebtn" class="btn btn-danger">
+            </form>
+        </div>
         <!-- Dish Code (rendered with TikTok embed) -->
         <div class="mb-4">
             {{ dish.code|safe }}
             <!-- Safe to render as code -->
             <script async src="https://www.tiktok.com/embed.js"></script>
         </div>
-
-        <!-- Dish Information -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="card-title">Giá cả món ăn: <span class="text-success">{{ dish.price|escape }}</span></h2>
-                <h3 class="card-text">
-                    Địa chỉ: đường {{ address.street }}, phường {{ address.ward }}, quận {{ address.district }}, {{ address.city }}
-                </h3>
-                <h3 class="card-text">Số lượt like: {{ dish.total_like }}</h3>
-            </div>
-        </div>
-
-        <!-- Like/Dislike Buttons -->
-        <div class="d-flex justify-content-between mb-4">
-            <form action="#" method="get">
-                <button type="submit" class="btn btn-danger" name="dislikebtn">Dislike</button>
-            </form>
-            <form action="#" method="get">
-                <button type="submit" class="btn btn-primary" name="likebtn">Like</button>
-            </form>
-        </div>
-
-        <!-- Back to Dashboard Button -->
-        <div class="text-center">
-            <a href="{% url 'myapp:dashboard' %}" class="btn btn-secondary">Trở về trang chủ</a>
-        </div>
+        <span class="badge rounded-pill"><a href="{%url 'myapp:map' dish.id%}" style="text-decoration: none;">Đường đi</a></span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
