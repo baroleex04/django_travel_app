@@ -74,7 +74,7 @@ def dashboard(request):
 @login_required(login_url="login")
 def detail(request, dish_id):
     dish = get_object_or_404(Dish, id=dish_id)
-    address = dish.address
+    address = dish.address.filter(is_primary=True).first()
     msg = None
     if request.user.is_authenticated:
         if dish.likers.filter(id=request.user.id).exists():
