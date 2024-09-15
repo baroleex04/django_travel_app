@@ -41,7 +41,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save() # save the data to the database, after that, redirect
-            return redirect("login") # match with the route name
+            return redirect("myapp:login") # match with the route name
     context = {'registerform':form} # move to file html
     return render(request, "myapp/register.html" ,context=context)
 
