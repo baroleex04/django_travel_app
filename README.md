@@ -1,5 +1,5 @@
 # Dish Displaying and Rating Web Application
-# Django-WebApp       <img alt="GitHub" src="https://img.shields.io/github/license/baroleex04/django_travel_app">
+# Django-WebApp       [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 This is a Django-based web application for showing different dishes in several cities. With the sources from Tiktok, the website created a visualization of dish's information, direction, rating.
 
