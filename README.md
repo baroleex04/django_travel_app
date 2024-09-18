@@ -34,6 +34,7 @@ This is a Django-based web application for showing different dishes in several c
 <b>The Secret_Key required for the execution and debugging of project is not removed from the project code. So you can use the project as your college mini-project or by using the project code you can build your own project.</b>
 
 <h2>Usage :</h2>
+    
     pip3 freeze > requirements.txt
     
     python django_web_app/manage.py makemigrations
